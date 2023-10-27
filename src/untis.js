@@ -3,8 +3,6 @@ require("dotenv").config();
 
 const untis = new webuntis.WebUntis(process.env.SCHOOL, process.env.USER, process.env.PASSW, process.env.PROVIDER);
 
-let testDate = new Date('October 18, 2023 00:00:00')
-
 async function timetable() {
     await untis.login();
     let timetable = await untis.getOwnTimetableForWeek(Date.now());
