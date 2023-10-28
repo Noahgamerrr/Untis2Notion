@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const untis = new webuntis.WebUntis(process.env.SCHOOL, process.env.USER, process.env.PASSW, process.env.PROVIDER);
 
-async function timetable() {
+async function getTimetable() {
     await untis.login();
     let timetable = await untis.getOwnTimetableForWeek(Date.now());
     timetable = timetable.filter(lesson => !lesson.is.cancelled);
@@ -19,5 +19,5 @@ async function timetable() {
 };
 
 module.exports = {
-    timetable
+    getTimetable
 }
