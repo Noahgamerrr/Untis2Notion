@@ -12,11 +12,16 @@ async function uploadTimetable(timetable) {
         });
         const calendar = contentList.results.find(e => e.type === "child_database");    
         const calBlock = await notion.databases.query({
-            database_id: calendar.id
+            database_id: calendar.id,
+            filter: {
+                property: 'Tags',
+                multi_select: {
+                    contains: "Schule"
+                }
+            }
         })
-        console.log(calBlock);
     } catch (error) {
-        console.log(err);
+        console.log(error);
     }
 }
 

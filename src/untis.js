@@ -3,6 +3,8 @@ require("dotenv").config();
 
 const untis = new webuntis.WebUntis(process.env.SCHOOL, process.env.USER, process.env.PASSW, process.env.PROVIDER);
 
+const testDate = Date.parse('16 Oct, 2023')
+
 function arrayIncludes(arr, next) {
     const existing = arr.find(e => 
         e.name == next.name &&
@@ -15,8 +17,11 @@ function arrayIncludes(arr, next) {
 
 async function getTimetable() {
     await untis.login();
-    let timetable = await untis.getOwnTimetableForWeek(Date.now());
-    timetable = timetable.filter(lesson => !lesson.is.cancelled);
+    let timetable = await untis.getOwnTimetableForWeek(testDate);
+    timetable = timetable.filter(lesson => 
+        !lesson.is.cancelled &&
+        lesson.substText != "EVA"
+    );
     timetable = timetable.map(lesson => {
         return {
             name: lesson.studentGroup ? lesson.studentGroup.split("_")[0] : lesson.substText,
@@ -31,13 +36,17 @@ async function getTimetable() {
         a.startTime - b.startTime
     )
     timetable = timetable.reduce((acc, curr) => {
-        const lastSubject = acc[acc.length - 1];
         if (arrayIncludes(acc, curr)) return acc;
+        acc.push(curr);
+        return acc;
+    }, [])
+    timetable = timetable.reduce((acc, curr) => {
+        const lastSubject = acc[acc.length - 1];
         if (
             lastSubject &&
             lastSubject.name == curr.name &&
             lastSubject.date == curr.date &&
-            lastSubject.endTime <= curr.startTime + 10
+            lastSubject.endTime <= curr.startTime
         ) {
             lastSubject.endTime = curr.endTime
         } else acc.push(curr);

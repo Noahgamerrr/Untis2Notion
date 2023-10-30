@@ -8,7 +8,7 @@ const app = express();
 app.post("/generateTimeTable", async function (request, response) {
     try {
         const timetable = await untis.getTimetable();
-        //await notion.uploadTimetable(timetable);
+        await notion.uploadTimetable(timetable);
         response.status(200).send("OK");
     } catch (error) {
         console.log(error)
