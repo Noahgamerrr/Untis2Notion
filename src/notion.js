@@ -20,6 +20,8 @@ async function uploadTimetable(timetable) {
                 }
             }
         })
+        console.log(calBlock);
+        console.log(calBlock.results[0].properties);
     } catch (error) {
         console.log(error);
     }

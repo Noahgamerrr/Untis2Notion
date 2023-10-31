@@ -5,6 +5,32 @@ const untis = new webuntis.WebUntis(process.env.SCHOOL, process.env.USER, proces
 
 const testDate = Date.parse('16 Oct, 2023')
 
+function dateTimeToNotionString(date, startTime, endTime) {
+    let dateStr = date.toString();
+
+    let startTimeStr = startTime.toString();
+    if (startTimeStr.length == 3) startTimeStr = '0' + startTimeStr;
+
+    let endTimeStr = endTime.toString();
+    if (endTimeStr.length == 3) endTimeStr = '0' + endTimeStr;
+
+
+    let year = dateStr.substring(0, 4);
+    let month = dateStr.substring(4, 6);
+    let day = dateStr.substring(6);
+
+    let startHour = startTimeStr.substring(0, 2);
+    let startMinute = startTimeStr.substring(2);
+
+    let endHour = endTimeStr.substring(0, 2);
+    let endMinute = endTimeStr.substring(2);
+
+    let notionStartTime = `${year}-${month}-${day}T${startHour}:${startMinute}:00.000+02:00`;
+    let notionEndTime = `${year}-${month}-${day}T${endHour}:${endMinute}:00.000+02:00`;
+
+    return [notionStartTime, notionEndTime];
+}
+
 function arrayIncludes(arr, next) {
     const existing = arr.find(e => 
         e.name == next.name &&
@@ -23,11 +49,11 @@ async function getTimetable() {
         lesson.substText != "EVA"
     );
     timetable = timetable.map(lesson => {
+        let [startTime, endTime] = dateTimeToNotionString(lesson.date, lesson.startTime, lesson.endTime);
         return {
             name: lesson.studentGroup ? lesson.studentGroup.split("_")[0] : lesson.substText,
-            date: lesson.date,
-            startTime: lesson.startTime,
-            endTime: lesson.endTime
+            startTime: startTime,
+            endTime: endTime
         }
     });
     timetable.sort(
