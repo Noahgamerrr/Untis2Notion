@@ -15,6 +15,8 @@ function dateTimeToNotionString(date, startTime, endTime) {
     if (endTimeStr.length == 3) endTimeStr = '0' + endTimeStr;
 
 
+    let offset = new Date().getTimezoneOffset() / -60;
+
     let year = dateStr.substring(0, 4);
     let month = dateStr.substring(4, 6);
     let day = dateStr.substring(6);
@@ -25,8 +27,8 @@ function dateTimeToNotionString(date, startTime, endTime) {
     let endHour = endTimeStr.substring(0, 2);
     let endMinute = endTimeStr.substring(2);
 
-    let notionStartTime = `${year}-${month}-${day}T${startHour}:${startMinute}:00.000+02:00`;
-    let notionEndTime = `${year}-${month}-${day}T${endHour}:${endMinute}:00.000+02:00`;
+    let notionStartTime = `${year}-${month}-${day}T${startHour}:${startMinute}:00.000+0${offset}:00`;
+    let notionEndTime = `${year}-${month}-${day}T${endHour}:${endMinute}:00.000+0${offset}:00`;
 
     return [notionStartTime, notionEndTime];
 }
@@ -52,8 +54,9 @@ async function getTimetable() {
         let [startTime, endTime] = dateTimeToNotionString(lesson.date, lesson.startTime, lesson.endTime);
         return {
             name: lesson.studentGroup ? lesson.studentGroup.split("_")[0] : lesson.substText,
-            startTime: startTime,
-            endTime: endTime
+            date: lesson.date,
+            startTime: lesson.startTime,
+            endTime: lesson.endTime
         }
     });
     timetable.sort(
@@ -78,6 +81,14 @@ async function getTimetable() {
         } else acc.push(curr);
         return acc;
     }, []);
+    timetable = timetable.map(lesson => {
+        let [startTime, endTime] = dateTimeToNotionString(lesson.date, lesson.startTime, lesson.endTime);
+        return {
+            name: lesson.name,
+            startTime: startTime,
+            endTime: endTime
+        }
+    });
     console.log(timetable);
     return timetable;
 };
