@@ -3,8 +3,6 @@ require("dotenv").config();
 
 const untis = new webuntis.WebUntis(process.env.SCHOOL, process.env.USER, process.env.PASSW, process.env.PROVIDER);
 
-const testDate = Date.parse('16 Oct, 2023')
-
 function dateTimeToNotionString(date, startTime, endTime) {
     let dateStr = date.toString();
 
@@ -13,9 +11,6 @@ function dateTimeToNotionString(date, startTime, endTime) {
 
     let endTimeStr = endTime.toString();
     if (endTimeStr.length == 3) endTimeStr = '0' + endTimeStr;
-
-
-    let offset = new Date().getTimezoneOffset() / -60;
 
     let year = dateStr.substring(0, 4);
     let month = dateStr.substring(4, 6);
@@ -27,8 +22,8 @@ function dateTimeToNotionString(date, startTime, endTime) {
     let endHour = endTimeStr.substring(0, 2);
     let endMinute = endTimeStr.substring(2);
 
-    let notionStartTime = `${year}-${month}-${day}T${startHour}:${startMinute}:00.000+0${offset}:00`;
-    let notionEndTime = `${year}-${month}-${day}T${endHour}:${endMinute}:00.000+0${offset}:00`;
+    let notionStartTime = `${year}-${month}-${day}T${startHour}:${startMinute}:00.000`;
+    let notionEndTime = `${year}-${month}-${day}T${endHour}:${endMinute}:00.000`;
 
     return [notionStartTime, notionEndTime];
 }
@@ -45,7 +40,7 @@ function arrayIncludes(arr, next) {
 
 async function getTimetable() {
     await untis.login();
-    let timetable = await untis.getOwnTimetableForWeek(testDate);
+    let timetable = await untis.getOwnTimetableForWeek(new Date());
     timetable = timetable.filter(lesson => 
         !lesson.is.cancelled &&
         lesson.substText != "EVA"
@@ -89,7 +84,7 @@ async function getTimetable() {
             endTime: endTime
         }
     });
-    console.log(timetable);
+    //console.log(timetable);
     return timetable;
 };
 

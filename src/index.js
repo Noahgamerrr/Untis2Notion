@@ -14,9 +14,17 @@ app.post("/generateTimeTable", async function (request, response) {
         console.log(error)
         response.status(500).send("Whoops! Something went wrong!");
     }
-    
 });
-  
+
+app.post("/generateDailyReport", async function (request, response) {
+  try {
+    await notion.generateDailyReport();
+    response.status(200).send();
+  } catch (error) {
+    console.log(error)
+    response.status(500).send("Whoops! Something went wrong!");
+  }
+});
 
 // <http://expressjs.com/en/starter/static-files.html>
 app.use(express.static("public"));
