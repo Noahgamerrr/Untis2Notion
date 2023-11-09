@@ -16,9 +16,9 @@ app.post("/generateTimeTable", async function (request, response) {
     }
 });
 
-app.post("/generateDailyReport", async function (request, response) {
+app.post("/resetDailyGoals", async function (request, response) {
   try {
-    await notion.generateDailyReport();
+    await notion.resetDailyGoals();
     response.status(200).send();
   } catch (error) {
     console.log(error)
