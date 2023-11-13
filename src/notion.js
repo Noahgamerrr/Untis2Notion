@@ -85,6 +85,10 @@ async function uploadTimetable(timetable) {
 }
 
 async function resetDailyGoals() {
+    const pageId = process.env.GOALS_ID;
+    const content = await notion.blocks.children.list({
+        block_id: pageId
+    });
     let toDoList = content.results.filter(b => b.to_do?.checked);
     let awaitUncheck = [];
     for (let toDo of toDoList) {
