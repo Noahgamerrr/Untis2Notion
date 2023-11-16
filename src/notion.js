@@ -29,7 +29,7 @@ async function uploadTimetable(timetable) {
                     property: 'Date',
                     date: {
                         on_or_after: date,
-                        on_or_before: new Date(date.setDate(date.getDate() + 4))
+                        on_or_before: new Date(date.setDate(date.getDate() + 5))
                     }
                 }
             ]
