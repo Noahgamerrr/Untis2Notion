@@ -101,7 +101,9 @@ async function resetDailyGoals() {
             })
         );
     }
-    await Promise.all(awaitUncheck);
+    const res = await Promise.allSettled(awaitUncheck);
+    const failedRequests = res.filter(r => r.status === "rejected");
+    if (failedRequests) throw new Error(failedRequests);
 }
 
 module.exports = {
