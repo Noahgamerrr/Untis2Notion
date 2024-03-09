@@ -9,14 +9,10 @@ function getFirstDayOfWeek(date) {
 }
 
 async function uploadTimetable(timetable) {
-    const pageId = process.env.PAGE_ID;
-    const contentList = await notion.blocks.children.list({
-        block_id: pageId
-    });
-    const calendar = contentList.results.find(e => e.type === "child_database");
+    const calendar = process.env.CALENDAR_ID;
     const date = getFirstDayOfWeek(new Date());
     const calBlock = await notion.databases.query({
-        database_id: calendar.id,
+        database_id: calendar,
         filter: {
             and: [
                 {
@@ -50,7 +46,7 @@ async function uploadTimetable(timetable) {
         awaitCreation.push(
             notion.pages.create({
                 parent: {
-                    database_id: calendar.id
+                    database_id: calendar
                 },
                 properties: {
                     Name: {
