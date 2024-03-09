@@ -33,7 +33,7 @@ While the USER and the PASSW variables are trivial, the SCHOOL and the PROVIDER 
 * Go to https://webuntis.com
 * Navigate to your school's Untis page.
 
-There, you will find that the URL has changes a lot. As an example, here's the URL for my school:
+There, you will find that the URL has changed a lot. As an example, here's the URL for my school:
 
 https://asopo.webuntis.com/WebUntis/?school=htblva_villach#/basic/login
 
@@ -46,7 +46,7 @@ PROVIDER: This is the URL's host which comes right after the URL-protocol, in th
 
 #### Create a Notion integration
 
-In order to use this code, you will need to create an API Integration using Notion.
+In order to use this code, you will need to create an API Integration for Notion.
 
 * Go to https://www.notion.so/my-integrations
 * Click on "+ New Integration"
@@ -68,25 +68,25 @@ Your integration now has access to your page as well as all its child blocks.
 
 #### Get ID of your Notion database
 
-Your final step would be to find the Database ID and noting it in your .env-file. In order to find the id
+Your final step would be to find the Database ID and saving it in your .env-file. In order to find the id
 
 * Navigate to the page where your database is located at in the Notion Web-Client
 * Navigate to your database
 * Click on the three dots appearing next to the database's name
 * Click on "view database"
 
-The URL should now look like: ```https://www.notion.so/a8aec43384f447ed84390e842c2e089?v=...```
+The URL should now look something like: ```https://www.notion.so/a8aec43384f447ed84390e842c2e089?v=...```
 
 From the URL, you can extract the database_id by looking at the part after the host name and before the request-params.
-In this case, it would be ```a8aec43384f447ed84390e842c2e089```. Just take this string and save it in your .env-file like:
+In this case, it would be ```a8aec43384f447ed84390e842c2e089```. Just take this string and save it in your .env-file as:
 ```CALENDAR_ID=[your database_id]```
 
 ## Running the code
 
-Now that the setup has been done, simple navigate in your terminal to the root folder of this project and then run ```npm start```. A server will be established on your computer on the port you provided in the .env-file.
+Now that the setup has been done, simply navigate in your terminal to the root folder of this project and then run ```npm start```. A server will be established on your computer on the port you provided in the .env-file.
 
 ## Making a request
 
-Example requests have been written in the rest folder. Adapt the request ```generateTimeTable``` to your port and then run it. Your database should be filled with blocks of your school subjects. Note that every time this command gets run, any existing blocks will be deleted.
+Example requests have been written in the rest folder. Adapt the request ```generateTimeTable``` to your port and then run it. Your database should be filled with blocks of your school subjects. Note that every time this command runs, any existing blocks will be deleted.
 
-Note that there is a second API point ```resetDailyGoals```, which has been created for my own purposes to reset a To-Do list every day and which is not part of the main purpose of this repository. It has still been added to this repository because the repository is connected to a cyclic-server so that I don't need to run that request every day by hand.
+Note that there is a second API point ```resetDailyGoals```, which has been created for my own purposes to reset a to-do list every day and which is not part of the main purpose of this repository. It has still been added to this repository because the repository is connected to a cyclic-server so that I don't need to run that request every day by hand.
