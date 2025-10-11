@@ -18,7 +18,7 @@ async function uploadTimetable(timetable) {
                 {
                     property: 'Tags',
                     multi_select: {
-                        contains: "Schule"
+                        contains: process.env.DATABASE_TAG
                     }
                 },
                 {
@@ -62,7 +62,7 @@ async function uploadTimetable(timetable) {
                     Tags: {
                         multi_select: [
                             {
-                                name: "Schule"
+                                name: process.env.DATABASE_TAG
                             }
                         ]
                     },

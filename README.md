@@ -24,6 +24,7 @@ PROVIDER=[Your school's provider for Untis]
 API_KEY=[Your Notion API Key]
 CALENDAR_ID=[The ID of your Notion Calendar]
 PORT=[The port where this code will be running on (for normal users 8080 fits perfectly)]
+DATABASE_TAG=[String that identifies your timetable entries: Something like School, College etc.]
 ```
 
 ### How to get your Untis data
@@ -42,6 +43,16 @@ In this URL, you can find the two remaining variables to be set in order to succ
 SCHOOL: This variable can be found in the request params of the URL, in my case it would be "htblva_villach"\
 PROVIDER: This is the URL's host which comes right after the URL-protocol, in this case "asopo.webuntis.com"
 
+### Prepare your Notion database
+
+If you create a new Notion database and try to connect the integration to it, this repository will fail. This is because it requires a property "Tags" that does not exist yet. To add this property:
+
+* Navigate to your database
+* Click on "settings"
+* Click on "Edit properties"
+* Click on "New property"
+* Add a new property "Tags" of type "Multi-select"
+
 ### How to connect to your Notion database
 
 #### Create a Notion integration
@@ -54,9 +65,9 @@ In order to use this code, you will need to create an API Integration for Notion
 * In "Secrets", click on "Show" and then "Copy" in the input field
 * Store the copied secret in your .env-file as ```API_KEY=[your secret]```
 
-#### Connect integration to your database
+#### Connect integration to your data source
 
-Now that the integration has been created, you will need to connect it to your database. In your Notion app:
+Now that the integration has been created, you will need to connect it to your data source. In your Notion app:
 
 * Navigate to the page where your database is located at
 * Click on the three dots in the top right
@@ -72,14 +83,14 @@ Your final step would be to find the Database ID and saving it in your .env-file
 
 * Navigate to the page where your database is located at in the Notion Web-Client
 * Navigate to your database
-* Click on the three dots appearing next to the database's name
-* Click on "view database"
+* Click on "settings"
+* Click on "Manage data sources"
+* Navigate to the source you want to load the timetable in
+* Click on the three dots on the right
+* Click on "Copy data source ID"
 
-The URL should now look something like: ```https://www.notion.so/a8aec43384f447ed84390e842c2e089?v=...```
-
-From the URL, you can extract the database_id by looking at the part after the host name and before the request-params.
-In this case, it would be ```a8aec43384f447ed84390e842c2e089```. Just take this string and save it in your .env-file as:
-```CALENDAR_ID=[your database_id]```
+You should now receive a string that looks like ```a8aec433-84f4-47ed-8439-0e842c2e089e```. Save that string as:
+```CALENDAR_ID=[your data_source_id]```
 
 ## Running the code
 
