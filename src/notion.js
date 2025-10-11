@@ -11,8 +11,8 @@ function getFirstDayOfWeek(date) {
 async function uploadTimetable(timetable) {
     const calendar = process.env.CALENDAR_ID;
     const date = getFirstDayOfWeek(new Date());
-    const calBlock = await notion.databases.query({
-        database_id: calendar,
+    const calBlock = await notion.dataSources.query({
+        data_source_id: calendar,
         filter: {
             and: [
                 {
@@ -43,10 +43,11 @@ async function uploadTimetable(timetable) {
     await Promise.all(awaitDeletion);
     const awaitCreation = [];
     for (let lesson of timetable) {
+        await new Promise(resolve => setTimeout(resolve, 200));
         awaitCreation.push(
             notion.pages.create({
                 parent: {
-                    database_id: calendar
+                    data_source_id: calendar
                 },
                 properties: {
                     Name: {

@@ -1,5 +1,9 @@
 ###
+POST https://untis2notion.onrender.com/generateTimeTable HTTP/1.1
+
+###
 POST http://localhost:8080/generateTimeTable HTTP/1.1
+
 
 ###
 POST http://localhost:8080/resetDailyGoals HTTP/1.1

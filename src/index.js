@@ -3,7 +3,7 @@ const notion = require("./notion");
 const express = require("express");
 const app = express();
 
-
+app.get("/", (req, res) => res.send("Hello World!"));
 
 app.post("/generateTimeTable", async function (request, response) {
     try {
@@ -26,16 +26,7 @@ app.post("/resetDailyGoals", async function (request, response) {
   }
 });
 
-// <http://expressjs.com/en/starter/static-files.html>
-app.use(express.static("public"));
-
-// <http://expressjs.com/en/starter/basic-routing.html>
-app.get("/", function(request, response) {
-  response.sendFile(__dirname + "/views/index.html");
-});
-
 // listen for requests
 const listener = app.listen(process.env.PORT, function() {
   console.log("Your app is listening on port " + listener.address().port);
 });
-

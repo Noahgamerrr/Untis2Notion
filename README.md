@@ -60,7 +60,7 @@ Now that the integration has been created, you will need to connect it to your d
 
 * Navigate to the page where your database is located at
 * Click on the three dots in the top right
-* Navigate to "Connect with"
+* Navigate to "Connections"
 * Search for your integration
 * Click on "Confirm"
 
